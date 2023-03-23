@@ -309,11 +309,11 @@ def run_example(knum):
     # figure, ax = plt.subplots()
     
     state = p.reset()
-    
+    # print(state)
 
     data = np.array(rbfn.getTrain4d())
     data, y = data[:, :-1], data[:, -1]
-    print(data)
+    # print(data)
     rbfnet = rbfn.RBFNet(k=knum)
     rbfnet.fit(data, y)
 
@@ -328,7 +328,7 @@ def run_example(knum):
         action = rbfnet.predict(state)
         #print(action)
         # take action
-        print(state[0], state[1], state[2], action)
+        print(state[0], state[1], state[2])
         state = p.step(action)
 
     #print(state, p.car.getPosition('center'))    
@@ -374,4 +374,4 @@ def run_example6d(knum):
     return carInfo
 
 if __name__ == "__main__":
-    run_example6d(10)
+    run_example(10)
