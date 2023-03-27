@@ -190,7 +190,6 @@ if __name__ == '__main__':
     
     ui.Train.clicked.connect(FuzzyRun)
     ui.Walk.clicked.connect(nextStep)
-    ui.Track.clicked.connect(selectTrack)
     
     #ui.Walk.setEnabled(False)
     drawInit()
