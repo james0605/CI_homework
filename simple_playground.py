@@ -2,7 +2,6 @@ import math as m
 import random as r
 from simple_geometry import *
 import matplotlib.pyplot as plt
-import RBFN as rbfn
 import numpy as np
 
 class Car():
@@ -303,76 +302,3 @@ class Playground():
         else:
             return self.state
 
-
-def run_example(knum):
-    # use example, select random actions until gameover
-    p = Playground()
-    # figure, ax = plt.subplots()
-    
-    state = p.reset()
-    # print(state)
-
-    data = np.array(rbfn.getTrain4d())
-    data, y = data[:, :-1], data[:, -1]
-    # print(data)
-    rbfnet = rbfn.RBFNet(k=knum)
-    rbfnet.fit(data, y)
-
-    carInfo = []
-    while not p.done:
-        # print every state and position of the car
-        # print(state, p.car.getPosition('center'))
-        info = [p.car.getPosition('center').x, p.car.getPosition('center').y] + state
-        carInfo.append(info)
-        # select action randomly
-        # you can predict your action according to the state here
-        action = rbfnet.predict(state)
-        #print(action)
-        # take action
-        print(state[0], state[1], state[2])
-        state = p.step(action)
-
-    #print(state, p.car.getPosition('center'))    
-    info = [p.car.getPosition('center').x, p.car.getPosition('center').y] + state
-    carInfo.append(info)
-
-    return carInfo
-    
-
-def run_example6d(knum):
-    # use example, select random actions until gameover
-    p = Playground()
-    # figure, ax = plt.subplots()
-    
-    state = p.reset()
-    
-
-    data = np.array(rbfn.getTrain6d())
-    data, y = data[:, :-1], data[:, -1]
-    print(data)
-    
-    rbfnet = rbfn.RBFNet(k=knum)
-    rbfnet.fit(data, y)
-    carInfo = []
-    while not p.done:
-        # print every state and position of the car
-        info = [p.car.getPosition('center').x, p.car.getPosition('center').y] + state
-        carInfo.append(info)
-        #print(state, p.car.getPosition('center'))
-        # select action randomly
-        # you can predict your action according to the state here
-        stateFor6d = [p.car.getPosition('center').x, p.car.getPosition('center').y] + state
-        #print(stateFor6d)
-
-        action = rbfnet.predict(stateFor6d)
-        print(stateFor6d[0], stateFor6d[1], stateFor6d[2], stateFor6d[3], stateFor6d[4], action)
-        #print(action)
-        # take action
-        state = p.step(action)
-    info = [p.car.getPosition('center').x, p.car.getPosition('center').y] + state
-    carInfo.append(info)
-
-    return carInfo
-
-if __name__ == "__main__":
-    run_example(10)
