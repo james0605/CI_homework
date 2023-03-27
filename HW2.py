@@ -64,7 +64,7 @@ def nextStep():
     if count < len(carInfo):
         #print('$$')
         timer.timeout.connect(run)
-        timer.start(250)
+        timer.start(150)
     
  
 
@@ -110,24 +110,6 @@ def run():
         count += 1
     else:
         timer.stop()
-
-def selectTrack():
-    global carInfo
-    count = 0
-    fileName = ui.comboBox.currentText()
-    Info = []
-    with open(fileName, 'r') as file:
-        for f in file.readlines():
-            temp = list(map(float, f.split()))
-            Info.append(temp)
-    p = sp.Playground()
-    carInfo = []
-    for i in Info:
-        state = p.step(i[-1])
-        carInfo.append([p.car.getPosition('center').x, p.car.getPosition('center').y] + state)
-    print(carInfo)
-    
-
 
 class PlotCanvas(FigureCanvas):
 
