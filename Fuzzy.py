@@ -50,5 +50,4 @@ class Fuzzy(object):
     
 if __name__ == "__main__":
     MyFuzzy = Fuzzy()
-    print("0")
     print(MyFuzzy.MembershipFun(3))
