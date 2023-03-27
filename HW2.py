@@ -44,17 +44,13 @@ def drawInit():
     ui.graphicsView.setScene(scene)
     
 
-def RBFNLearn():
+def FuzzyRun():
     global carInfo
     global count
 
     count = 0
-    k = ui.knum.value()
-    if ui.radio4d.isChecked():
-        carInfo = sp.run_example(k)
-    else:
-        carInfo = sp.run_example6d(k)
-    
+    # carInfo = sp.run_example6d(k)
+    carInfo = Fuzzy.run_example()
     ui.Walk.setEnabled(True)
     print('carInfo', carInfo)
 
@@ -192,7 +188,7 @@ if __name__ == '__main__':
     ui.graphicsView.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
     ui.graphicsView.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
     
-    ui.Train.clicked.connect(RBFNLearn)
+    ui.Train.clicked.connect(FuzzyRun)
     ui.Walk.clicked.connect(nextStep)
     ui.Track.clicked.connect(selectTrack)
     
