@@ -38,7 +38,7 @@ class Fuzzy(object):
     def MF_Straight(self, dist):
         MF_Value = 0
         if dist <= 0:
-            MF_Value = (dist - (-2)) / 0 - (-2)
+            MF_Value = (dist - (-2)) /( 0 - (-2))
         elif dist > 1:
             MF_Value = (2 - dist) / (2 - 0) 
         else:
@@ -97,11 +97,11 @@ def run_example():
         carInfo.append(info)
         # select action randomly
         # you can predict your action according to the state here
-        action = fuzzy.MembershipFun(dist = dl-dr)
+        action = fuzzy.predict(dist = dl-dr)
         # action = rbfnet.predict(state)
         #print(action)
         # take action
-        print(state[0], state[1], state[2])
+        # print(state[0], state[1], state[2])
         state = p.step(action)
 
     #print(state, p.car.getPosition('center'))    
@@ -111,6 +111,6 @@ def run_example():
     return carInfo
 
 if __name__ == "__main__":
-    MyFuzzy = Fuzzy()
-    print(MyFuzzy.predict(3))
-    # run_example()
+    # MyFuzzy = Fuzzy()
+    # print(MyFuzzy.predict(3))
+    run_example()

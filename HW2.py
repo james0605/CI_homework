@@ -14,7 +14,7 @@ import numpy as np
 import os
 
 import random
-
+import Fuzzy
 import Ui_RBFN
 import simple_playground as sp
 
