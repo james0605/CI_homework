@@ -8,16 +8,22 @@ class Fuzzy(object):
 
     def MembershipFun(self, dist):
         if dist <= -2:
-            self.MF_Value = self.MF_RightTurn(dist)
+            self.MF_Value, self.direction = self.MF_RightTurn(dist)
         elif dist <= -1 and dist > -2:
-            self.MF_Value = min(self.MF_RightTurn(dist=dist), self.MF_LeftTurn(dist=dist))
+            if self.MF_RightTurn(dist=dist)[0] > self.MF_LeftTurn(dist=dist)[0]:
+                self.MF_Value, self.direction = self.MF_LeftTurn(dist=dist)
+            else:
+                self.MF_Value, self.direction = self.MF_RightTurn(dist=dist)
         elif dist <= 1 and dist > -1:
-            self.MF_Value = self.MF_Straight(dist=dist)
+            self.MF_Value, self.direction = self.MF_Straight(dist=dist)
         elif dist <= 2 and dist > 1:
-            self.MF_Value = min(self.MF_Straight(dist=dist), self.MF_LeftTurn(dist=dist))
+            if self.MF_Straight(dist)[0] > self.MF_LeftTurn(dist)[0]:
+                self.MF_Value, self.direction = self.MF_LeftTurn(dist)
+            else:
+                self.MF_Value, self.direction = self.MF_Straight(dist)
         elif dist > 2:
-            self.MF_Value = self.MF_LeftTurn(dist=dist)
-        return self.MF_Value
+            self.MF_Value, self.direction = self.MF_LeftTurn(dist=dist)
+        return [self.MF_Value, self.direction]
     
     def MF_RightTurn(self, dist):
         MF_Value = 0
@@ -27,7 +33,7 @@ class Fuzzy(object):
             MF_Value = (-1 - dist) / (-1 - (-4)) 
         else:
             MF_Value = 0
-        return float(MF_Value)
+        return [float(MF_Value), 'right']
 
     def MF_Straight(self, dist):
         MF_Value = 0
@@ -37,7 +43,7 @@ class Fuzzy(object):
             MF_Value = (2 - dist) / (2 - 0) 
         else:
             MF_Value = 0
-        return float(MF_Value)
+        return [float(MF_Value), 'front']
 
     def MF_LeftTurn(self, dist):
         MF_Value = 0
@@ -47,9 +53,24 @@ class Fuzzy(object):
             MF_Value = (dist - 1) / (4 - 1) 
         else:
             MF_Value = 0
-        return float(MF_Value)
+        return [float(MF_Value), 'left']
+
+    def predict(self, dist):
+        MF_value, direction = self.MembershipFun(dist)
+        return MF_value2angel(MF_value, direction)
 
 
+
+def MF_value2angel(MF_value, direction):
+    if direction == 'right':
+        angle = MF_value * 40
+    elif direction == 'left':
+        angle = MF_value * (-40)
+    elif direction == 'front':
+        angle = 0
+    else:
+        print("Need to Enter Direction")
+    return angle
 
 def run_example():
     # use example, select random actions until gameover
@@ -76,7 +97,8 @@ def run_example():
         carInfo.append(info)
         # select action randomly
         # you can predict your action according to the state here
-        action = rbfnet.predict(state)
+        action = fuzzy.MembershipFun(dist = dl-dr)
+        # action = rbfnet.predict(state)
         #print(action)
         # take action
         print(state[0], state[1], state[2])
@@ -89,6 +111,6 @@ def run_example():
     return carInfo
 
 if __name__ == "__main__":
-    # MyFuzzy = Fuzzy()
-    # print(MyFuzzy.MembershipFun(3))
-    run_example()
+    MyFuzzy = Fuzzy()
+    print(MyFuzzy.predict(3))
+    # run_example()
