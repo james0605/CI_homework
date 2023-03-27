@@ -58,6 +58,8 @@ def RBFNLearn():
     ui.Walk.setEnabled(True)
     print('carInfo', carInfo)
 
+
+
 timer = QTimer()   
 def nextStep():
     global count

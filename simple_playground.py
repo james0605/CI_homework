@@ -292,6 +292,7 @@ class Playground():
         #if action:
             #angle = self.calWheelAngleFromAction(action=action)
         angle = action
+        print("angle:{}".format(angle))
         self.car.setWheelAngle(angle)
 
         if not self.done:
